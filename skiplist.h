@@ -61,6 +61,11 @@ struct SkipList<Key>::Node {
     Node(Key key, int level);
 };
 
+template<typename Key>
+SkipList<Key>::Node::Node(Key key, int level)
+    : key(key), next(level, nullptr) {}
+
+
 // Generate a random level for new nodes
 template<typename Key>
 int SkipList<Key>::RandomLevel() { // 확률에 따라 노드의 레벨이 될 정수값을 리턴하는 함수 
@@ -126,7 +131,7 @@ bool SkipList<Key>::Delete(const Key& key) const {
 
     current = current->next[0];
     if (current != nullptr && current->key == key){
-        for(int i = 0; i < current->next.size(); i++){
+        for(size_t i = 0; i < current->next.size(); i++){
             if (update[i]->next[i] == current){
                 update[i]->next[i] = current->next[i]; 
             }
