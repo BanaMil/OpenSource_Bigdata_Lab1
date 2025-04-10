@@ -63,7 +63,7 @@ struct SkipList<Key>::Node {
 
 // Generate a random level for new nodes
 template<typename Key>
-int SkipList<Key>::RandomLevel() {
+int SkipList<Key>::RandomLevel() { // 확률에 따라 노드의 레벨이 될 정수값을 리턴하는 함수 
     // To be implemented by students
     int level = 1; // 기본 레벨 1로 설정
     while((float)rand()/RAND_MAX < 0.5 && level < max_level){level++;} // 레벨이 max_level보다 작다면 0.5의 확률로 레벨 1 증가
@@ -72,7 +72,7 @@ int SkipList<Key>::RandomLevel() {
 
 // Constructor for SkipList
 template<typename Key>
-SkipList<Key>::SkipList(int max_level, float probability)
+SkipList<Key>::SkipList(int max_level, float probability) //Skiplist 클래스 생성자
     : max_level(max_level), probability(probability) {
         // To be implemented by students
         head = new Node(Key(), max_level); // head 노드의 레벨을 max_level로 설정
@@ -104,8 +104,8 @@ void SkipList<Key>::Insert(const Key& key) {
     Node* new_node = new Node(key, level);
 
     for(int i = 0; i < level; i++){
-        new_node->next[i] = update->next[i];
-        update->next[i] = new_node[i];
+        new_node->next[i] = update[i]->next[i];
+        update[i]->next[i] = new_node;
     }
 
     // To be implemented by students
@@ -128,7 +128,7 @@ bool SkipList<Key>::Delete(const Key& key) const {
     if (current != nullptr && current->key == key){
         for(int i = 0; i < current->next.size(); i++){
             if (update[i]->next[i] == current){
-                update[i]->next[i] == current->next[i]; 
+                update[i]->next[i] = current->next[i]; 
             }
         }
         delete current;
@@ -165,7 +165,7 @@ std::vector<Key> SkipList<Key>::Scan(const Key& key, const int scan_num) {
     }
     for (int i = 0; i < scan_num; i++){
         current = current->next[0];
-        scan_result.push_back(current->key)
+        scan_result.push_back(current->key);
     }
 
     // To be implemented by students
@@ -195,5 +195,5 @@ void SkipList<Key>::Print() const {
     std::cout << "\n";
 
   }
-    
+
 }
