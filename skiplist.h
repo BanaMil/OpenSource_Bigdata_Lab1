@@ -168,9 +168,14 @@ std::vector<Key> SkipList<Key>::Scan(const Key& key, const int scan_num) {
             current = current->next[i];
         }
     }
-    for (int i = 0; i < scan_num; i++){
-        current = current->next[0];
+
+    current = current_next[0];
+    int count = 0;
+
+    while (current != nullptr && count < scan_num){
         scan_result.push_back(current->key);
+        current = current->next[0];
+        count++;
     }
 
     // To be implemented by students
